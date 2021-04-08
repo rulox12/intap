@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Traits\HasActivityRelationships;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Activity
@@ -15,13 +15,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Activity extends Model
 {
     use HasFactory;
+    use HasActivityRelationships;
 
-    public function createdBy(): BelongsTo
+    public function scopeForIndex(Builder $query): Builder
     {
-        return $this->belongsTo(User::class,'created_by');
-    }
-
-    public function scopeForIndex(Builder $query){
         return $query->where('created_by' , auth()->user()->id);
     }
 }
