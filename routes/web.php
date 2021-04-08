@@ -22,4 +22,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::resource('/activities','App\Http\Controllers\ActivityController');
+Route::resource('/times','App\Http\Controllers\TimeController');
 
