@@ -2,23 +2,25 @@
 
 namespace App\Models;
 
-use App\Traits\HasActivityRelationships;
+use App\Traits\HasTimeRelationships;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Activity
+ * Class Time
  * @property int $id
- * @property string $description
+ * @property int $minutes
+ * @property string $date
+ * @property int $activity_id
  */
-class Activity extends Model
+class Time extends Model
 {
     use HasFactory;
-    use HasActivityRelationships;
+    use HasTimeRelationships;
 
-    public function scopeForIndex(Builder $query): Builder
-    {
+
+    public function scopeForIndex(Builder $query){
         return $query->where('created_by' , auth()->user()->id);
     }
 }

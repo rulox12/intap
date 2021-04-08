@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Actions\CreateOrUpdateActivityAction;
-use App\Http\Requests\StoreActivityRequest;
+use App\Domain\Times\CreateOrUpdateTimeAction;
+use App\Http\Requests\StoreTimeRequest;
 use App\Models\Activity;
+use App\Models\Time;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
-class ActivityController extends Controller
+class TimeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,20 +24,20 @@ class ActivityController extends Controller
             return redirect()->route('register');
         }
 
-        $activities = Activity::forIndex()->paginate();
+        $times = Time::forIndex()->paginate();
 
-        return view('admin.activities.index', compact('activities'));
+        return view('admin.times.index', compact('times'));
     }
 
     /**
-     * @param StoreActivityRequest $request
+     * @param StoreTimeRequest $request
      * @return RedirectResponse
      */
-    public function store(StoreActivityRequest $request): RedirectResponse
+    public function store(StoreTimeRequest $request): RedirectResponse
     {
-        $activity = CreateOrUpdateActivityAction::execute($request, new Activity());
+        CreateOrUpdateTimeAction::execute($request, new Time());
 
-        return redirect()->route('activities.show', $activity)
+        return redirect()->route('activities.show', $request->input('activity_id'))
             ->with('success', __('Record created successfully'));
     }
 
